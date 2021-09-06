@@ -1,5 +1,8 @@
-@extends('layouts.app')
-
-@section('content')
-<h1>Recycle Blade Template file (Welcome)</h1>
-@endsection
+<x-app-layout>
+    <x-slot name-"header">
+        <h2 class="font-semibold text-xl">
+            {{ __('Home') }}
+        </h2>
+    </x-slot>
+    <x-post-list :posts="$posts"/>
+</x-app-layout>

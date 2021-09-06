@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,20 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Resource 는 이름이 이미 지정되어있는 상태이므로 이름을 지정하지 않아도 됨.
+Route::resource('/posts', PostsController::class)->middleware(['auth']);
+
 Route::get('/', function () {
-    return view('welcome');
-    // return "Hello World!!!";
-});
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
-// Route::get('/login', function () {
-//     // return view('welcome');
-//     return "Login.";
-// })->name('login');
-
-Route::get('/layout', function(){
-    return view('layouts.app');
-});
-
-Route::get('/hello', function(){
-    return view('hello');
-});
+require __DIR__.'/auth.php';
