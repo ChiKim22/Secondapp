@@ -23,6 +23,21 @@ class CreatePostsTable extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->timestamps();
+
+                    // Schema::create('posts', function (Blueprint $table){
+        //     $table->id();
+        //     $table->string('title');
+        //     $table->text('content');
+        //     $table->string('image')->nullable();
+        //     // $table->unsignedBigInteger('user_id');
+        //     $table->foreignId('user_id')
+        //             ->constrained()
+        //             ->onUpdate('cascade')
+        //             ->onDelete('cascade');
+
+        //     $table->timestamps();
+        //     // $table->timestamp('created_at');
+        // });
         });
     }
 
