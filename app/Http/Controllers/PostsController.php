@@ -66,6 +66,8 @@ class PostsController extends Controller
         // strpos, strrpos
         $input = array_merge($request->all(), ["user_id" => Auth::user()->id]);
 
+        $fileName = null;
+
         if ($fileName) {
             $input = array_merge($input, ['image' => $fileName]);
         }
@@ -100,7 +102,10 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        //
+        //id 에 해당하는 포스트를 수정할 수 있는 페이지를 반환
+        $post = Post::find($id);
+
+        return view ('bbs.edit', ['post' => $post]);
     }
 
     /**
@@ -112,7 +117,22 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'title'=>'required',
+            'content'=>'required|min:3',
+            'image'=>'image',
+        ]);
+
+        $post = Post::find($id);
+
+        // $post->title = $request->input['title']; // 1
+        // $post->content = $request->content; // 2
+
+        // $post->save();
+
+        // $post->update(['title' => $request->title, // 3 
+        // 'content' => $request->content]);
+
     }
 
     /**
@@ -121,8 +141,13 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        //DI, Dependency Injection, 의존성 주입
+        // dd($request);
+
+        Post::find($id)->delete();
+
+        return redirect()->route('posts.index');
     }
 }
