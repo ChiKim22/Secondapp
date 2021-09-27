@@ -1,5 +1,5 @@
 <div>
-    <div class="card" style="width: 100%; margin:10px">
+    <div class="card" style="width: 100%; margin:10px; mr-10">
         @if($post->image)
             <img src="{{ '/storage/image/'.$post->image }}" class="card-img-top" alt="Card image cap">
         @else
