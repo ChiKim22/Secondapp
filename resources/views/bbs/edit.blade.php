@@ -49,17 +49,16 @@
 
         <div class="col-12">
             <button type="submit" class="btn btn-primary">Edit</button>
-        </div>
-            <script>
-                function deleteImage(){
-                    editForm = document.getElementById('editForm');
-                    editForm.delete('_method');
-                    editForm._method = 'delete'; // method scopping
-                    editForm.action = '/posts/images/{{ $post->id }}';
-                    editForm.submit();
-                    return false;
-                }
-            </script>    
+        </div> 
     </div>
 </form>    
+<script>
+    function deleteImage(){
+        editForm = document.getElementById('editForm');
+        editForm._method.value = 'delete'; // method scopping
+        editForm.action = '/posts/image/{{ $post->id }}';
+        editForm.submit();
+        return false;
+    }
+</script>   
 </x-app-layout>
