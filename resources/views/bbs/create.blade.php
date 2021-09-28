@@ -24,8 +24,7 @@
         <div class="content mt-5">
           <label for="content">Content</label>
           <br>
-          <textarea type="text" class="form-control" id="content" placeholder="Content" name="content">
-          </textarea>
+          <textarea type="text" class="form-control" id="content" placeholder="Content" name="content"></textarea>
 
           @error('content')
           <div class="text-red-800">
