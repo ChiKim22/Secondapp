@@ -1,5 +1,5 @@
 <div>
-    <div class="card" style="width: 100%; margin:10px; mr-10">
+    <div class="card" style="width: 100%;" class="mt-5">
         @if($post->image)
             <img src="{{ '/storage/image/'.$post->image }}" class="card-img-top" alt="Card image cap">
         @else
@@ -10,7 +10,10 @@
           <p class="card-text">{{ $post->content }}</p>
           <div class="mt-10">
             {{-- Like Button --}}
-            <like-button :post="{{ $post }}"/> 
+            <like-button 
+            :post="{{ $post }}" 
+            :loginuser = "{{ auth()->user()->id }}"/> 
+            {{-- 현재 로그인한 사용자의 id --}}
           </div>
         </div>
         <ul class="list-group list-group-flush">
@@ -20,26 +23,15 @@
         </ul>
         <div class="card-body flex">
           <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="card-link">Edit</a>
-          <form id="form" class="ml-2" method="post" onsubmit="event.preventDefault(); confirmDelete()" }}">
+          <form id="form" class="ml-2" method="post" onsubmit="event.preventDefault(); confirmDelete(event)">
             @csrf
             @method('delete')
             {{-- <input type="hidden" name="_method" value="delete"> --}}
             <button type="submit">Delete</button>
             {{-- <a href="{{ route('posts.destroy') }}" class="card-link">Delete</a> --}}
           </form>
-        </div>
       </div>
-
-      <script>
-        function confirmDelete(e) {
-          myForm = document.getElementById('form'); // form 이란 id 를 가진 dom 객체를 가져옴.
-          confirm = confirm("Are You Sure?");
-
-          if(confirm == true){
-            //서버에 서브밋
-            myForm.submit();
-          }
-          // e.preventDefault(); // form이 서버로 전달되는 것을 막아준다.
-        }
-      </script>
+          <div class="card" style="width: 99%; margin:0 auto; padding: 10px;">
+            <comment-list :post="{{ $post }}" :loginuser="{{ auth()->user()->id }}"/>
+          </div>
 </div>

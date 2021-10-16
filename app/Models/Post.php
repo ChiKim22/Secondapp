@@ -27,4 +27,8 @@ class Post extends Model
         //select * from users u, posts p
         //inner join on u.id = p.writer_id
     }
+
+    public function likes() {
+        return $this->belongsToMany(User::class); // N:M 의 관계에서 사용 belongsToMany
+    }
 }

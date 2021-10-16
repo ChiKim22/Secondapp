@@ -41,7 +41,7 @@
             <input type="file" class="form-control" id="img" name="image">
             @if($post->image)
                 <img class="w-20 h-20 rounded-full mt-2" src="{{ '/storage/image/'.$post->image }}" class="card-img-top" alt="image">
-                <button onclick="return deleteImage()" class="btn btn-danger mt-3">Delete Image</button>
+                <button onclick="return deleteImage({{ $post->id }})" class="btn btn-danger mt-3">Delete Image</button>
             @else
                 <span>No Image...</span><br>
             @endif
@@ -52,13 +52,4 @@
         </div> 
     </div>
 </form>    
-<script>
-    function deleteImage(){
-        editForm = document.getElementById('editForm');
-        editForm._method.value = 'delete'; // method scopping
-        editForm.action = '/posts/image/{{ $post->id }}';
-        editForm.submit();
-        return false;
-    }
-</script>   
 </x-app-layout>

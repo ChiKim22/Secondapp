@@ -91,7 +91,7 @@ class PostsController extends Controller
     public function show($id)
     {
         // $id 에 해당하는 포스트를 데이터베이스에서 인출.
-        $post = Post::find($id);
+        $post = Post::with('likes')->find($id); // with() => Eager Loding (즉시 로딩)
 
         // 나온 값을 상세보기 뷰로 전달.
         return view('bbs.show', ['post' => $post]);
