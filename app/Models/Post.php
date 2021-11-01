@@ -14,6 +14,7 @@ class Post extends Model
         "content",
         "user_id",
         "image",
+        "comment",
     ];
 
 
@@ -31,4 +32,8 @@ class Post extends Model
     public function likes() {
         return $this->belongsToMany(User::class); // N:M 의 관계에서 사용 belongsToMany
     }
+
+    // public function comments() {
+    //     return $this->belongsToMany(Comment::class);
+    // }
 }

@@ -1,7 +1,7 @@
 <div>
-    <div class="card" style="width: 100%;" class="mt-5">
+    <div class="card" class="md:w-auto">
         @if($post->image)
-            <img src="{{ '/storage/image/'.$post->image }}" class="card-img-top" alt="Card image cap">
+            <img src="{{ '/storage/image/'.$post->image }}" class="card-img-top md:w-auto" alt="Card image cap">
         @else
             <span>No Image...</span>
         @endif
@@ -31,7 +31,8 @@
             {{-- <a href="{{ route('posts.destroy') }}" class="card-link">Delete</a> --}}
           </form>
       </div>
-          <div class="card" style="width: 99%; margin:0 auto; padding: 10px;">
-            <comment-list :post="{{ $post }}" :loginuser="{{ auth()->user()->id }}"/>
+          <div class="card" style="width: 90%; margin:0 auto;">
+            <comment-list :post="{{ $post }}" 
+            :loginuser="{{ auth()->user()->id }}"/>
           </div>
 </div>

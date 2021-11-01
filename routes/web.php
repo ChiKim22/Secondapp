@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\LikesController;
 use App\Http\Controllers\PostsController;
 use App\Models\Post;
@@ -26,6 +27,17 @@ Route::get('/', function () {
 
 Route::delete('posts/image/{id}', [PostsController::class, 'deleteImage'])->middleware(['auth']);
 
-Route::post('/like/{post}', [LikesController::class, "store"])->middleware(['auth'])->name('like.store');
+Route::post('/like/{post}', [LikesController::class, 'store'])->middleware(['auth'])->name('like.store');
+
+Route::get('comments/{post}', [CommentsController::class, 'index'])->name('comments.index');
+
+// add comment
+Route::post('/comments/{post_id}', [CommentsController::class, 'store'])->name('comments.store');
+
+// edit comment
+Route::patch('/comments/{comment_id}', [CommentsController::class, 'patch'])->name('comments.update');
+
+// delete comment
+Route::delete('/comments/{comment_id}', [CommentsController::class, 'destroy'])->name('comments.delete');
 
 require __DIR__.'/auth.php';

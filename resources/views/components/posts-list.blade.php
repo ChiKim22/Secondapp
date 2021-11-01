@@ -13,6 +13,7 @@
             <th scope="col">Title</th>
             <th scope="col">Writer</th>
             <th scope="col">Created at</th>
+            <th scope="col">Likes</th>
           </tr>
         </thead>
         <tbody>
