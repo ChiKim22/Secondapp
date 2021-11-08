@@ -14,7 +14,7 @@ class CommentsController extends Controller
         //select * from comments where post_id = ?
         //order by created_at desc;
 
-        $comments = Comment::with('user')->where('post_id', $postId)->latest()->get(); // user name 을 뽑기위해 서버에서 조인
+        $comments = Comment::with('user')->where('post_id', $postId)->latest()->paginate(5); // user name 을 뽑기위해 서버에서 조인
 
         return $comments;
 

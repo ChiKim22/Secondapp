@@ -1,22 +1,29 @@
 <template>
     <div>
-        <input type="text" name="write" class="form-control" required/>
+        
+        <label class="block text-left"> 
+            <input type="text" v-model="newComment" class="form-control">
+            <button @click="addComment" class="btn btn-primary">Enter</button>
+        </label>
         <button class="btn btn-primary" @click="getComments">Reading Comments</button>
-        <comment-item v-for="(comment, index) in comments" 
-                                :key="index" :comment="comment"
-                                @deleted="getConfirms"/>
+            <comment-item v-for="(comment, index) in comments.data" :key="index" :comment="comment"/>
+        
+        <pagination @pageClicked="getPage($event)"
+        v-if="comments.data !=null" :links="comments.links"></pagination>
     </div>
 </template>
 
 <script>
 import CommentItem from "./CommentItem.vue";
+import Pagination from "./Pagination.vue";
 
 export default {
     props: ['post', 'loginuser'],
-    components: {CommentItem},
+    components: {CommentItem, Pagination},
     data(){
         return {
             comments:[],
+            newComment : '',
         }
     },
     methods:{
@@ -33,11 +40,30 @@ export default {
                 console.log(err);
             })
         },
-        getConfirms(){
-            axios.get('/comments'+this.comment.id)
+        addComment(){
+            axios.post('/comments/'+this.post.id, {'comment':this.newComment})
+            .then(response=> {
+                console.log(response.data);
+                this.getComments();
+                this.newComment="";
+            })
+            .catch(err=> {
+                console.log(err);
+            })
+                if (this.newComment == ""){
+                alert('blank input...');
+                // return false;
+            }
+        },
+        getPage(url) {
+            console.log(url);
+            axios.get(url)
             .then(response=>{
-                confirm("Are you sure?");
-            }).catch(err)
+                this.comments = response.data;
+                // console.log(response);
+            }).catch(err=>{
+                console.log(err);
+            })
         }
     }
 }
