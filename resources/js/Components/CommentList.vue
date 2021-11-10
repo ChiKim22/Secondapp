@@ -1,16 +1,17 @@
 <template>
-    <div>
+<div class="shadow-lg">
+            <label class="block text-left"> 
+                <input type="text" v-model="newComment" class="form-control">
+            </label>
+            <input type="submit" @click="addComment" class="btn btn-primary">
+
+            <button class="btn btn-primary" @click="getComments">Reading Comments</button>
+                <comment-item v-for="(comment, index) in comments.data" :key="index" :comment="comment" :login_user_id="loginuser" />
         
-        <label class="block text-left"> 
-            <input type="text" v-model="newComment" class="form-control">
-            <button @click="addComment" class="btn btn-primary">Enter</button>
-        </label>
-        <button class="btn btn-primary" @click="getComments">Reading Comments</button>
-            <comment-item v-for="(comment, index) in comments.data" :key="index" :comment="comment"/>
-        
-        <pagination @pageClicked="getPage($event)"
-        v-if="comments.data !=null" :links="comments.links"></pagination>
-    </div>
+            <pagination @pageClicked="getPage($event)"
+                v-if="comments.data !=null" :links="comments.links"></pagination>
+</div>
+
 </template>
 
 <script>

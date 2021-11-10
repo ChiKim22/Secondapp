@@ -103,10 +103,13 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
+        // 의존성 주입 DI (Dependency Injection)
+
         //id 에 해당하는 포스트를 수정할 수 있는 페이지를 반환
         $post = Post::find($id);
+        $this->authorize('update', $post);
 
         return view ('bbs.edit', ['post' => $post]);
     }
@@ -127,6 +130,7 @@ class PostsController extends Controller
         ]);
 
         $post = Post::find($id);
+        $this->authorize('update', $post);
 
         // $post->title = $request->input['title']; // 1
 
@@ -174,6 +178,7 @@ class PostsController extends Controller
         // dd($request);
 
        $post =  Post::find($id);
+       $this->authorize('delete', $post); // 삭제 권한 관리. 작성자만 가능하게
 
         //게시글에 이미지가 있으면 파일 시스템에서도 삭제해줘야 한다.
         
@@ -188,6 +193,9 @@ class PostsController extends Controller
 
     public function deleteImage($id) {
         $post = Post::find($id);
+        
+        $this->authorize('delete', $post);
+
         Storage::delete('public/image', $post->image);
         $post->image = null;
         $post->save();

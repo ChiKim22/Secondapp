@@ -21,15 +21,22 @@
           <li class="list-group-item">수정일 : {{ $post->updated_at }}</li>
           <li class="list-group-item">작성자 : {{ $post->writer->name }}</li>
         </ul>
+
         <div class="card-body flex">
-          <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="card-link">Edit</a>
-          <form id="form" class="ml-2" method="post" onsubmit="event.preventDefault(); confirmDelete(event)">
-            @csrf
-            @method('delete')
-            {{-- <input type="hidden" name="_method" value="delete"> --}}
-            <button type="submit">Delete</button>
-            {{-- <a href="{{ route('posts.destroy') }}" class="card-link">Delete</a> --}}
-          </form>
+          {{-- 수정, 삭제 버튼이 작성자일때만 표시 @can --}}
+          @can('update', $post)
+            <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="card-link">Edit</a>
+          @endcan
+
+          @can('delete', $post)
+            <form id="form" class="ml-2" method="post" onsubmit="event.preventDefault(); confirmDelete(event)">
+              @csrf
+              @method('delete')
+              {{-- <input type="hidden" name="_method" value="delete"> --}}
+              <button type="submit">Delete</button>
+              {{-- <a href="{{ route('posts.destroy') }}" class="card-link">Delete</a> --}}
+            </form>
+          @endcan
       </div>
           <div class="card" style="width: 90%; margin:0 auto;">
             <comment-list :post="{{ $post }}" 

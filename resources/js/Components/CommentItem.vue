@@ -8,6 +8,15 @@
                     <div class="text-normal leading-snug md:leading-normal">
                         {{ comment.comment}}
                     </div>
+                    <a href="#" class="hover:underline" 
+                        v-if="comment.user_id == login_user_id" >
+                        <small>update</small>
+                    </a>
+                       <small v-if="comment.user_id == login_user_id" > · </small>
+                    <a href="#" class="hover:underline" 
+                        v-if="comment.user_id == login_user_id" >
+                        <small>delete</small>
+                    </a>
             </div>
                     <div class="text-sm ml-4 mt-0.5 text-gray-500 dark:text-gray-400">
                         {{ comment.updated_at }}
@@ -17,6 +26,32 @@
 </template>
 <script>
 export default{
-    props:['comment'],
+    props:['comment', 'login_user_id'],
+    data(){
+        return {
+            comment:"",
+        }
+    },
+    methods:{
+        update() {
+            axios.patch('/comments/' + this.comment.id, {
+                'comments' : this.comment.comment
+            }).then(response=>{
+                this.comment = response.data;
+            }).catch();
+        },
+        delete() {
+            axios.delete('/comments/' + this.comment.id)
+            .then(response=> {
+                getConfrims();
+            }).catch();
+        },
+        getConfirms(){
+             axios.get('/comments'+this.comment.id)
+             .then(response=>{
+                 confirm("Are you sure?");
+             }).catch(err)
+         }
+    }
 }
 </script>
