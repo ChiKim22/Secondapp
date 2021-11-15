@@ -26,11 +26,16 @@ class CommentsController extends Controller
 
     public function update(Request $request, $comment_id){
 
-        $request->validate(['comment' => 'required|min:3']);
+        $request->validate(['comment' => 'required']);
 
         // update할 레코드를 먼저 찾고, 그 다음 update
         $comment = Comment::find($comment_id);
-        //selest * from comment where id = ?
+        //selest * from comment = ?
+        // where id = ?
+        //첫번째 ? : $request->input('comment');
+        //두번째 ? : $comment->id;
+
+        $this->authorize('update', $comment);
 
         $comment->update([
                 'comment' => $request->input('comment'),
@@ -68,14 +73,21 @@ class CommentsController extends Controller
         return $comment; // create 에 의해 생겨난 레코드에 대응되는 eloquent 객체.
     }
 
-    public function destroy($comment_id){
+    public function destroy(Request $request, $comment_id){
         // comments 테이블에서 id 가 일치하는 레코드를 삭제.
         // RAW query, DB Query Builder, Eloquent
 
         $comment = Comment::find($comment_id); // 정적 메소드.
 
-        $comment->delete();
-       
-        return $comment;
+        // CommentPolicy 를 적용한 권한관리를 하자.
+        // 즉 이 요청을 한 사용자가 이 댓글을 삭제할 수 있는지 체크.
+        // $this->authorize('delete', $comment);
+
+        if ($request->user()->can('delete', $comment)) {
+            $comment->delete();
+            return $comment;
+        }else {
+            abort(403);
+        }
     }
 }

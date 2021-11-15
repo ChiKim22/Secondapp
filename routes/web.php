@@ -35,7 +35,7 @@ Route::get('comments/{post}', [CommentsController::class, 'index'])->name('comme
 Route::post('/comments/{post_id}', [CommentsController::class, 'store'])->name('comments.store');
 
 // edit comment
-Route::patch('/comments/{comment_id}', [CommentsController::class, 'patch'])->name('comments.update');
+Route::patch('/comments/{comment_id}', [CommentsController::class, 'update'])->name('comments.update');
 
 // delete comment
 Route::delete('/comments/{comment_id}', [CommentsController::class, 'destroy'])->name('comments.delete');
