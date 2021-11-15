@@ -6,7 +6,7 @@
             <input type="submit" @click="addComment" class="btn btn-primary">
 
             <button class="btn btn-primary" @click="getComments">Reading Comments</button>
-                <comment-item v-for="(comment, index) in comments.data" :key="index" :comment="comment" :login_user_id="loginuser" />
+                <comment-item v-for="comment in comments.data" :key="comment.id" :comment="comment" :login_user_id="loginuser" @deleted="getComments" />
         
             <pagination @pageClicked="getPage($event)"
                 v-if="comments.data !=null" :links="comments.links"></pagination>
